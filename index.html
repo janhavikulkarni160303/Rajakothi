@@ -4,425 +4,346 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Raja Kothi — A Royal Heritage Retreat</title>
-<meta name="description" content="Raja Kothi, a heritage palace resort where royal Rajput hospitality meets quiet modern luxury. Suites, dining, and curated experiences." />
+<meta name="description" content="Raja Kothi — a heritage palace retreat. An immersive, warm, minimal experience in cream and coffee." />
 <style>
   /* ============================================================
-     RAJA KOTHI — Royal heritage resort
-     Palette: sandstone ivory · royal bottle-green · antique gold · terracotta
-     Type: Palatino/Iowan old-style serif display · humanist sans body
-     NOTE for hosting: to swap in web fonts once live, drop
-     Cormorant Garamond (display) + Jost (body) into <head> and update
-     --font-display / --font-body below. Works on your domain.
+     RAJA KOTHI · 3D heritage retreat
+     Palette: warm white · cream · latte · mocha · coffee · espresso
+     Depth: CSS 3D pavilion, cursor parallax, tilt cards, scroll reveals
+     Fonts (host swap): Fraunces (display) + Inter (body) once live.
      ============================================================ */
-
   :root {
-    /* light theme (default) */
-    --ground:      #F7F2E7;  /* warm sandstone ivory */
-    --ground-2:    #EFE7D6;  /* deeper sandstone panel */
-    --ink:         #17241F;  /* deep emerald-black text */
-    --ink-soft:    #4A5A50;  /* muted body text */
-    --emerald:     #0F4234;  /* royal bottle green */
-    --emerald-2:   #0A2E24;  /* darker green */
-    --gold:        #A9863C;  /* antique gold */
-    --gold-bright: #C6A24C;  /* lit gold */
-    --terracotta:  #9C4A2E;  /* warm accent */
-    --line:        #D8CDB4;  /* hairline on ground */
-    --card:        #FBF8F0;
-    --hero-tint:   rgba(15,66,52,.62);
+    --warm-white:#FBF7F0;
+    --cream:#F1E8D9;
+    --latte:#E3D3B8;
+    --sand:#D8C3A0;
+    --mocha:#A97E56;
+    --coffee:#6E4E37;
+    --espresso:#2F231B;
+    --ink:#33251C;
+    --muted:#7C6656;
+    --caramel:#B98A5E;
+    --line:#E0D2BC;
+    --card:#FCF9F3;
 
-    --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "Hoefler Text", Georgia, serif;
-    --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-
+    --shadow: 0 30px 60px -30px rgba(72,49,32,.45);
+    --pad: clamp(1.25rem, 5vw, 6.5rem);
     --measure: 40rem;
-    --pad: clamp(1.25rem, 5vw, 6rem);
-    --arch: 46% 46% 6px 6px / 62% 62% 6px 6px; /* palace-arch radius */
+
+    --font-display:"Fraunces","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Arial,sans-serif;
+
+    /* cursor parallax vars (updated by JS) */
+    --mx:0; --my:0;
+  }
+  :root[data-theme="dark"]{
+    --warm-white:#241B14; --cream:#2C211A; --latte:#3A2C21; --sand:#4A3728;
+    --mocha:#B98A5E; --coffee:#C79C74; --espresso:#170F0A;
+    --ink:#F2E7D6; --muted:#C3AE99; --caramel:#D6A876;
+    --line:#3C2E23; --card:#2A1F17;
+    --shadow:0 30px 60px -28px rgba(0,0,0,.6);
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ground:      #10201A;
-      --ground-2:    #0C1A15;
-      --ink:         #F2EAD8;
-      --ink-soft:    #B7C3B8;
-      --emerald:     #14513F;
-      --emerald-2:   #081713;
-      --gold:        #CBA455;
-      --gold-bright: #E4C271;
-      --terracotta:  #C96A48;
-      --line:        #2A3B33;
-      --card:        #142722;
-      --hero-tint:   rgba(6,20,15,.68);
-    }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:
+      radial-gradient(120% 80% at 80% -10%, var(--cream), transparent 60%),
+      linear-gradient(180deg, var(--warm-white), var(--warm-white));
+    color:var(--ink); font-family:var(--font-body); font-size:1.02rem; line-height:1.7;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
   }
-  /* explicit toggle overrides media query in both directions */
-  :root[data-theme="light"] {
-    --ground:#F7F2E7; --ground-2:#EFE7D6; --ink:#17241F; --ink-soft:#4A5A50;
-    --emerald:#0F4234; --emerald-2:#0A2E24; --gold:#A9863C; --gold-bright:#C6A24C;
-    --terracotta:#9C4A2E; --line:#D8CDB4; --card:#FBF8F0; --hero-tint:rgba(15,66,52,.62);
-  }
-  :root[data-theme="dark"] {
-    --ground:#10201A; --ground-2:#0C1A15; --ink:#F2EAD8; --ink-soft:#B7C3B8;
-    --emerald:#14513F; --emerald-2:#081713; --gold:#CBA455; --gold-bright:#E4C271;
-    --terracotta:#C96A48; --line:#2A3B33; --card:#142722; --hero-tint:rgba(6,20,15,.68);
-  }
+  h1,h2,h3{ font-family:var(--font-display); font-weight:500; line-height:1.08; text-wrap:balance; margin:0; letter-spacing:-.01em; }
+  p{ margin:0; } a{ color:inherit; text-decoration:none; } img{ max-width:100%; display:block; }
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
-
-  body {
-    margin: 0;
-    background: var(--ground);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 1.02rem;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  h1,h2,h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.12; text-wrap: balance; margin: 0; }
-  p { margin: 0; }
-  a { color: inherit; text-decoration: none; }
-  img { max-width: 100%; display: block; }
-
-  .eyebrow {
-    font-family: var(--font-body);
-    text-transform: uppercase;
-    letter-spacing: .32em;
-    font-size: .72rem;
-    font-weight: 600;
-    color: var(--gold);
-  }
-
-  /* ornamental gold rule with center diamond */
-  .rule { display:flex; align-items:center; justify-content:center; gap:.9rem; color:var(--gold); }
-  .rule::before, .rule::after { content:""; height:1px; width:min(6rem,18vw); background:linear-gradient(90deg,transparent,var(--gold)); }
-  .rule::after { background:linear-gradient(90deg,var(--gold),transparent); }
-  .rule span { width:7px; height:7px; transform:rotate(45deg); border:1px solid var(--gold); }
+  .eyebrow{ text-transform:uppercase; letter-spacing:.34em; font-size:.7rem; font-weight:600; color:var(--mocha); }
+  .btn{ font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; padding:.85rem 1.7rem; border-radius:999px;
+        border:1px solid var(--coffee); color:var(--ink); background:transparent; cursor:pointer; transition:.28s; display:inline-block; }
+  .btn:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+  .btn-solid{ background:linear-gradient(135deg,var(--coffee),var(--espresso)); color:var(--warm-white); border-color:transparent; }
 
   /* ---------- NAV ---------- */
-  header.nav {
-    position: sticky; top: 0; z-index: 50;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: .9rem var(--pad);
-    background: color-mix(in srgb, var(--ground) 86%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-  }
-  .brand { display:flex; align-items:center; gap:.7rem; }
-  .crest {
-    width:34px; height:34px; flex:none; border:1px solid var(--gold);
-    border-radius: 50% 50% 4px 4px / 66% 66% 4px 4px;
-    display:grid; place-items:center; color:var(--gold);
-    font-family:var(--font-display); font-size:1.05rem;
-  }
-  .brand b { font-family:var(--font-display); font-weight:600; font-size:1.22rem; letter-spacing:.04em; }
-  .brand small { display:block; font-family:var(--font-body); text-transform:uppercase; letter-spacing:.28em; font-size:.54rem; color:var(--ink-soft); }
-  nav.links { display:flex; gap:2rem; align-items:center; }
-  nav.links a { font-size:.86rem; letter-spacing:.06em; color:var(--ink-soft); transition:color .2s; }
-  nav.links a:hover { color:var(--ink); }
-  .btn {
-    font-family:var(--font-body); font-size:.82rem; letter-spacing:.12em; text-transform:uppercase;
-    padding:.7rem 1.4rem; border:1px solid var(--gold); color:var(--ink);
-    background:transparent; cursor:pointer; transition:all .25s; border-radius:2px;
-  }
-  .btn:hover { background:var(--gold); color:var(--emerald-2); }
-  .btn-solid { background:var(--emerald); color:var(--ground); border-color:var(--emerald); }
-  .btn-solid:hover { background:var(--emerald-2); color:var(--ground); border-color:var(--emerald-2); }
-  .nav .btn { padding:.55rem 1.1rem; }
-  #theme { background:none;border:1px solid var(--line);color:var(--ink);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:.9rem; }
-  .menu-toggle { display:none; }
+  header.nav{ position:sticky; top:0; z-index:60; display:flex; align-items:center; justify-content:space-between;
+    padding:.9rem var(--pad); background:color-mix(in srgb,var(--warm-white) 82%,transparent); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line); }
+  .brand{ display:flex; align-items:center; gap:.7rem; }
+  .crest{ width:36px;height:36px;flex:none;border-radius:50% 50% 6px 6px/70% 70% 6px 6px;
+    background:linear-gradient(135deg,var(--mocha),var(--coffee)); color:var(--warm-white);
+    display:grid;place-items:center;font-family:var(--font-display);font-size:1.1rem; box-shadow:var(--shadow); }
+  .brand b{ font-family:var(--font-display); font-weight:600; font-size:1.25rem; letter-spacing:.02em; }
+  .brand small{ display:block; text-transform:uppercase; letter-spacing:.3em; font-size:.52rem; color:var(--muted); }
+  nav.links{ display:flex; gap:2rem; }
+  nav.links a{ font-size:.85rem; letter-spacing:.05em; color:var(--muted); transition:color .2s; }
+  nav.links a:hover{ color:var(--ink); }
+  .nav-right{ display:flex; align-items:center; gap:.7rem; }
+  #theme{ width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:.95rem; }
+  @media(max-width:880px){ nav.links{ display:none; } }
 
-  @media (max-width: 860px) {
-    nav.links { display:none; }
-  }
+  /* ---------- HERO with 3D pavilion ---------- */
+  .hero{ position:relative; min-height:100vh; display:grid; grid-template-columns:1.05fr .95fr; align-items:center;
+    gap:2rem; padding:6rem var(--pad) 3rem; overflow:hidden; }
+  .hero-glow{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+  .blob{ position:absolute; border-radius:50%; filter:blur(60px); opacity:.55; }
+  .blob.a{ width:44vw;height:44vw; top:-12vw; right:-8vw; background:radial-gradient(circle,var(--latte),transparent 70%);
+    transform:translate3d(calc(var(--mx)*-24px),calc(var(--my)*-24px),0); }
+  .blob.b{ width:34vw;height:34vw; bottom:-10vw; left:-6vw; background:radial-gradient(circle,var(--sand),transparent 70%);
+    transform:translate3d(calc(var(--mx)*20px),calc(var(--my)*20px),0); opacity:.4; }
 
-  /* ---------- HERO ---------- */
-  .hero {
-    position: relative; min-height: 90vh; display:grid; place-items:center;
-    text-align:center; padding: 5rem var(--pad); overflow:hidden;
-    color: #F7F2E7;
-  }
-  .hero-bg {
-    position:absolute; inset:0; z-index:0;
-    background:
-      radial-gradient(120% 80% at 50% 0%, transparent, var(--emerald-2)),
-      linear-gradient(160deg, #14513F, #0A2E24 60%, #081713);
-  }
-  /* faint jali lattice pattern over hero */
-  .hero-bg::after {
-    content:""; position:absolute; inset:0; opacity:.14;
-    background-image:
-      repeating-linear-gradient(45deg, var(--gold-bright) 0 1px, transparent 1px 22px),
-      repeating-linear-gradient(-45deg, var(--gold-bright) 0 1px, transparent 1px 22px);
-    -webkit-mask-image: radial-gradient(120% 100% at 50% 30%, #000, transparent 78%);
-            mask-image: radial-gradient(120% 100% at 50% 30%, #000, transparent 78%);
-  }
-  .hero-inner { position:relative; z-index:2; max-width:52rem; display:grid; gap:1.6rem; justify-items:center; }
-  .hero .eyebrow { color: var(--gold-bright); }
-  .hero h1 { font-size: clamp(2.9rem, 8vw, 6rem); letter-spacing:.01em; }
-  .hero h1 em { font-style: italic; color: var(--gold-bright); }
-  .hero p.lede { max-width: 34rem; color: #E6E0D0; font-size:1.08rem; }
-  .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:.4rem; }
-  .hero .btn { color:#F7F2E7; }
-  .hero .rule { color: var(--gold-bright); }
-  .hero .rule::before { background:linear-gradient(90deg,transparent,var(--gold-bright)); }
-  .hero .rule::after { background:linear-gradient(90deg,var(--gold-bright),transparent); }
-  .hero .rule span { border-color: var(--gold-bright); }
-  .scroll-cue { position:absolute; bottom:1.4rem; left:50%; transform:translateX(-50%); z-index:2; color:#E6E0D0; font-size:.68rem; letter-spacing:.28em; text-transform:uppercase; opacity:.8; }
+  .hero-copy{ position:relative; z-index:3; display:grid; gap:1.5rem; max-width:32rem;
+    transform:translate3d(calc(var(--mx)*-8px),calc(var(--my)*-6px),0); }
+  .hero-copy h1{ font-size:clamp(3rem,7vw,5.4rem); }
+  .hero-copy h1 em{ font-style:italic; color:var(--coffee); }
+  .hero-copy p{ color:var(--muted); max-width:28rem; }
+  .hero-actions{ display:flex; gap:1rem; flex-wrap:wrap; margin-top:.4rem; }
 
-  /* ---------- SECTION SHELL ---------- */
-  section { padding: clamp(4rem, 9vw, 8rem) var(--pad); }
-  .sec-head { display:grid; gap:1rem; justify-items:center; text-align:center; max-width:var(--measure); margin:0 auto 3.5rem; }
-  .sec-head h2 { font-size: clamp(2rem, 5vw, 3.2rem); }
-  .sec-head p { color:var(--ink-soft); }
+  /* 3D stage */
+  .stage{ position:relative; z-index:2; height:min(70vh,620px); perspective:1200px; perspective-origin:50% 45%; }
+  .tilt{ position:absolute; inset:0; transform-style:preserve-3d;
+    transform:rotateX(calc(var(--my)*10deg)) rotateY(calc(var(--mx)*-16deg)); transition:transform .15s ease-out; }
+  .spin{ position:absolute; left:50%; top:52%; width:0; height:0; transform-style:preserve-3d;
+    animation:spin 34s linear infinite; }
+  @keyframes spin{ from{ transform:rotateY(0); } to{ transform:rotateY(360deg); } }
 
-  /* ---------- WELCOME ---------- */
-  .welcome { background:var(--ground); }
-  .welcome-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem,5vw,5rem); align-items:center; max-width:74rem; margin:0 auto; }
-  .welcome-copy { display:grid; gap:1.4rem; }
-  .welcome-copy h2 { font-size: clamp(2rem,4.4vw,3rem); }
-  .welcome-copy p { color:var(--ink-soft); }
-  .stats { display:flex; gap:2.4rem; margin-top:.6rem; flex-wrap:wrap; }
-  .stat b { font-family:var(--font-display); font-size:2rem; color:var(--emerald); display:block; }
-  :root[data-theme="dark"] .stat b, @media (prefers-color-scheme: dark){ .stat b{ color:var(--gold-bright);} }
-  .stat span { font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
+  .box{ position:absolute; left:50%; top:50%; width:0; height:0; transform-style:preserve-3d; }
+  .face{ position:absolute; left:50%; top:50%; background:var(--coffee); border:1px solid rgba(47,35,27,.15);
+    background-image:linear-gradient(160deg, rgba(255,255,255,.14), rgba(0,0,0,.10)); }
+  .face.tx{ background:linear-gradient(160deg,var(--mocha),var(--coffee)); }
+  .face.dx{ background:var(--espresso); }
+  .face.rx,.face.lx{ filter:brightness(.86); }
+  .face.bx{ filter:brightness(.8); }
+  .ring{ position:absolute; left:50%; top:50%; border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, var(--mocha), var(--coffee) 70%, var(--espresso));
+    box-shadow:0 1px 0 rgba(0,0,0,.12); }
+  .plinth-shadow{ position:absolute; left:50%; top:calc(52% + 130px); width:360px; height:120px; margin-left:-180px;
+    background:radial-gradient(ellipse, rgba(60,40,26,.35), transparent 70%); filter:blur(8px);
+    transform:translateZ(0); z-index:1; }
+  .stage-cap{ position:absolute; bottom:.2rem; left:0; right:0; text-align:center; font-size:.64rem;
+    letter-spacing:.28em; text-transform:uppercase; color:var(--muted); z-index:4; }
 
-  /* photo placeholder */
-  .ph {
-    position:relative; background:var(--ground-2);
-    border:1px solid var(--line); overflow:hidden;
-    display:grid; place-items:center; color:var(--ink-soft);
-    min-height:220px;
-  }
-  .ph::before {
-    content: attr(data-label);
-    font-size:.68rem; letter-spacing:.22em; text-transform:uppercase; text-align:center;
-    padding:1rem; opacity:.7;
-  }
-  .ph.arch { border-radius: var(--arch); }
-  .welcome .ph { min-height:440px; border-radius: var(--arch); }
+  /* ---------- reveal ---------- */
+  .reveal{ opacity:0; transform:translateY(38px) rotateX(8deg); transform-origin:top; transition:opacity .8s, transform .8s; }
+  .reveal.in{ opacity:1; transform:none; }
 
-  /* ---------- SUITES ---------- */
-  .suites { background:var(--ground-2); }
-  .suite-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; max-width:78rem; margin:0 auto; }
-  .suite { background:var(--card); border:1px solid var(--line); border-radius:6px; overflow:hidden; display:flex; flex-direction:column; transition:transform .3s, box-shadow .3s; }
-  .suite:hover { transform:translateY(-6px); box-shadow:0 18px 40px -24px rgba(10,46,36,.5); }
-  .suite .ph { min-height:250px; border-radius: 46% 46% 0 0 / 22% 22% 0 0; border:none; border-bottom:1px solid var(--line); }
-  .suite-body { padding:1.6rem 1.5rem 1.9rem; display:grid; gap:.7rem; }
-  .suite h3 { font-size:1.5rem; }
-  .suite .tag { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); }
-  .suite p { color:var(--ink-soft); font-size:.92rem; }
-  .suite .price { margin-top:.4rem; font-family:var(--font-display); font-size:1.15rem; color:var(--emerald); }
-  @media (prefers-color-scheme: dark){ .suite .price{ color:var(--gold-bright);} }
-  :root[data-theme="dark"] .suite .price{ color:var(--gold-bright); }
-  :root[data-theme="light"] .suite .price{ color:var(--emerald); }
+  /* ---------- SECTIONS ---------- */
+  section{ position:relative; padding:clamp(4.5rem,9vw,9rem) var(--pad); }
+  .sec-head{ display:grid; gap:1rem; justify-items:center; text-align:center; max-width:var(--measure); margin:0 auto 3.5rem; }
+  .sec-head h2{ font-size:clamp(2.1rem,5vw,3.4rem); }
+  .sec-head p{ color:var(--muted); }
+  .divider{ display:flex; align-items:center; gap:.8rem; color:var(--mocha); }
+  .divider::before,.divider::after{ content:""; height:1px; width:4.5rem; background:linear-gradient(90deg,transparent,var(--mocha)); }
+  .divider::after{ background:linear-gradient(90deg,var(--mocha),transparent); }
+  .divider i{ width:6px;height:6px;transform:rotate(45deg);background:var(--mocha); }
 
-  /* ---------- EXPERIENCES ---------- */
-  .exp { background:var(--emerald-2); color:#EDE6D4; }
-  .exp .sec-head h2 { color:#F7F2E7; }
-  .exp .sec-head p { color:#C4CFC0; }
-  .exp .eyebrow { color:var(--gold-bright); }
-  .exp-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.4rem; max-width:78rem; margin:0 auto; }
-  .exp-card { border:1px solid rgba(198,162,76,.28); border-radius:6px; padding:2rem 1.4rem; text-align:center; display:grid; gap:.7rem; justify-items:center; background:rgba(255,255,255,.02); transition:border-color .3s, background .3s; }
-  .exp-card:hover { border-color:var(--gold-bright); background:rgba(198,162,76,.06); }
-  .exp-ico { width:46px; height:46px; color:var(--gold-bright); }
-  .exp-card h3 { font-size:1.24rem; color:#F7F2E7; }
-  .exp-card p { font-size:.86rem; color:#C4CFC0; }
+  /* WELCOME */
+  .welcome-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,5rem); align-items:center; max-width:74rem; margin:0 auto; }
+  .welcome-copy{ display:grid; gap:1.3rem; }
+  .welcome-copy h2{ font-size:clamp(2rem,4.4vw,3rem); }
+  .welcome-copy p{ color:var(--muted); }
+  .stats{ display:flex; gap:2.4rem; margin-top:.4rem; flex-wrap:wrap; }
+  .stat b{ font-family:var(--font-display); font-size:2.1rem; color:var(--coffee); display:block; }
+  .stat span{ font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
 
-  /* ---------- DINING (split) ---------- */
-  .dining-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,4.5rem); align-items:center; max-width:76rem; margin:0 auto; }
-  .dining-copy { display:grid; gap:1.3rem; }
-  .dining .ph { min-height:430px; border-radius:var(--arch); }
-  .dining-copy ul { list-style:none; padding:0; margin:.4rem 0 0; display:grid; gap:.8rem; }
-  .dining-copy li { display:flex; gap:.8rem; align-items:flex-start; color:var(--ink-soft); font-size:.95rem; }
-  .dining-copy li::before { content:"◆"; color:var(--gold); font-size:.7rem; margin-top:.35rem; }
+  /* photo placeholder with depth */
+  .ph{ position:relative; background:
+      repeating-linear-gradient(135deg, var(--cream) 0 14px, var(--latte) 14px 15px);
+    border:1px solid var(--line); border-radius:16px; overflow:hidden; display:grid; place-items:center;
+    min-height:220px; box-shadow:var(--shadow); }
+  .ph::before{ content:attr(data-label); font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);
+    text-align:center; padding:1rem; background:color-mix(in srgb,var(--warm-white) 70%,transparent); border-radius:8px; }
+  .welcome .ph{ min-height:440px; }
 
-  /* ---------- GALLERY ---------- */
-  .gallery { background:var(--ground-2); }
-  .gal-grid { display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:180px; gap:1rem; max-width:80rem; margin:0 auto; }
-  .gal-grid .ph { border-radius:4px; }
+  /* SUITES — tilt cards */
+  .suites{ background:linear-gradient(180deg,var(--warm-white),var(--cream)); }
+  .suite-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.8rem; max-width:80rem; margin:0 auto; }
+  .card3d{ perspective:900px; }
+  .card-inner{ background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+    transform-style:preserve-3d; transition:transform .12s ease-out, box-shadow .3s; box-shadow:var(--shadow); position:relative; }
+  .card-inner .glare{ position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s; z-index:3;
+    background:radial-gradient(circle at var(--gx,50%) var(--gy,0%), rgba(255,255,255,.5), transparent 45%); }
+  .card3d:hover .glare{ opacity:.7; }
+  .card-inner .ph{ border-radius:0; box-shadow:none; min-height:250px; transform:translateZ(30px); }
+  .suite-body{ padding:1.7rem 1.6rem 2rem; display:grid; gap:.6rem; transform:translateZ(45px); }
+  .suite-body .tag{ font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--mocha); }
+  .suite-body h3{ font-size:1.55rem; }
+  .suite-body p{ color:var(--muted); font-size:.92rem; }
+  .suite-body .price{ font-family:var(--font-display); font-size:1.15rem; color:var(--coffee); margin-top:.3rem; }
+
+  /* EXPERIENCES — coffee ombre */
+  .exp{ background:linear-gradient(180deg,var(--coffee),var(--espresso)); color:var(--cream); }
+  .exp .sec-head h2{ color:var(--warm-white); }
+  .exp .sec-head p,.exp .exp-card p{ color:#E7D8C4; }
+  .exp .eyebrow{ color:var(--caramel); }
+  .exp .divider{ color:var(--caramel); }
+  .exp .divider::before{ background:linear-gradient(90deg,transparent,var(--caramel)); }
+  .exp .divider::after{ background:linear-gradient(90deg,var(--caramel),transparent); }
+  .exp .divider i{ background:var(--caramel); }
+  .exp-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.4rem; max-width:80rem; margin:0 auto; }
+  .exp-card{ border:1px solid rgba(214,168,118,.28); border-radius:16px; padding:2.1rem 1.4rem; text-align:center;
+    display:grid; gap:.7rem; justify-items:center; background:rgba(255,255,255,.04); transition:.3s; }
+  .exp-card:hover{ transform:translateY(-6px); border-color:var(--caramel); background:rgba(214,168,118,.08); }
+  .exp-ico{ width:44px;height:44px; color:var(--caramel); }
+  .exp-card h3{ font-size:1.2rem; color:var(--warm-white); }
+
+  /* DINING */
+  .dining-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,4.5rem); align-items:center; max-width:76rem; margin:0 auto; }
+  .dining-copy{ display:grid; gap:1.2rem; }
+  .dining .ph{ min-height:430px; }
+  .dining-copy ul{ list-style:none; padding:0; margin:.3rem 0 0; display:grid; gap:.7rem; }
+  .dining-copy li{ display:flex; gap:.7rem; color:var(--muted); font-size:.95rem; }
+  .dining-copy li::before{ content:"◆"; color:var(--mocha); font-size:.7rem; margin-top:.35rem; }
+
+  /* GALLERY */
+  .gallery{ background:linear-gradient(180deg,var(--cream),var(--warm-white)); }
+  .gal-grid{ display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:180px; gap:1rem; max-width:82rem; margin:0 auto; }
   .gal-grid .ph:nth-child(1){ grid-column:span 2; grid-row:span 2; }
   .gal-grid .ph:nth-child(6){ grid-column:span 2; }
 
-  /* ---------- RESERVE / CONTACT ---------- */
-  .reserve { background:var(--ground); }
-  .reserve-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,4rem); max-width:74rem; margin:0 auto; }
-  .contact-list { display:grid; gap:1.5rem; margin-top:.5rem; }
-  .contact-list div { display:grid; gap:.2rem; }
-  .contact-list span.k { font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); }
-  .contact-list span.v { color:var(--ink-soft); }
-  form.book { display:grid; gap:1rem; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:clamp(1.5rem,3vw,2.4rem); }
-  form.book h3 { font-size:1.6rem; }
-  .field { display:grid; gap:.4rem; }
-  .field label { font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); }
-  .field input, .field select { font-family:var(--font-body); font-size:.95rem; padding:.7rem .8rem; background:var(--ground); border:1px solid var(--line); border-radius:4px; color:var(--ink); }
-  .field input:focus, .field select:focus { outline:2px solid var(--gold); outline-offset:1px; }
-  .two { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-  form.book .btn-solid { margin-top:.4rem; padding:.9rem; }
+  /* RESERVE */
+  .reserve-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,4rem); max-width:74rem; margin:0 auto; }
+  .contact-list{ display:grid; gap:1.4rem; margin-top:.6rem; }
+  .contact-list .k{ font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--mocha); display:block; }
+  .contact-list .v{ color:var(--muted); }
+  form.book{ display:grid; gap:1rem; background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:clamp(1.5rem,3vw,2.4rem); box-shadow:var(--shadow); }
+  form.book h3{ font-size:1.6rem; }
+  .field{ display:grid; gap:.4rem; } .two{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .field label{ font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+  .field input,.field select{ font-family:var(--font-body); font-size:.95rem; padding:.75rem .85rem; border-radius:10px;
+    background:var(--warm-white); border:1px solid var(--line); color:var(--ink); }
+  .field input:focus,.field select:focus{ outline:2px solid var(--caramel); outline-offset:1px; }
 
-  /* ---------- FOOTER ---------- */
-  footer.site { background:var(--emerald-2); color:#D8D2C2; padding:clamp(3rem,6vw,5rem) var(--pad) 2rem; }
-  .foot-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:2.5rem; max-width:74rem; margin:0 auto 2.5rem; }
-  .foot-brand b { font-family:var(--font-display); font-size:1.7rem; color:#F7F2E7; letter-spacing:.04em; }
-  .foot-brand p { color:#AEB8AC; margin-top:.8rem; max-width:26rem; font-size:.92rem; }
-  .foot-col h4 { font-family:var(--font-body); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-bright); margin:0 0 1rem; }
-  .foot-col a { display:block; color:#C4CFC0; font-size:.9rem; margin-bottom:.6rem; }
-  .foot-col a:hover { color:#F7F2E7; }
-  .foot-bottom { border-top:1px solid rgba(198,162,76,.2); padding-top:1.5rem; max-width:74rem; margin:0 auto; display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-size:.78rem; color:#93A093; letter-spacing:.04em; }
+  /* FOOTER */
+  footer.site{ background:linear-gradient(180deg,var(--espresso),#180F09); color:#E0CDB6; padding:clamp(3rem,6vw,5rem) var(--pad) 2rem; }
+  .foot-grid{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:2.5rem; max-width:74rem; margin:0 auto 2.5rem; }
+  .foot-brand b{ font-family:var(--font-display); font-size:1.8rem; color:var(--warm-white); }
+  .foot-brand p{ color:#B79E85; margin-top:.8rem; max-width:26rem; font-size:.92rem; }
+  .foot-col h4{ font-size:.7rem; letter-spacing:.22em; text-transform:uppercase; color:var(--caramel); margin:0 0 1rem; }
+  .foot-col a{ display:block; color:#D6C3AC; font-size:.9rem; margin-bottom:.6rem; }
+  .foot-col a:hover{ color:var(--warm-white); }
+  .foot-bottom{ border-top:1px solid rgba(214,168,118,.2); padding-top:1.5rem; max-width:74rem; margin:0 auto;
+    display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-size:.76rem; color:#9C876F; }
 
-  /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 980px) {
-    .welcome-grid, .dining-grid, .reserve-grid { grid-template-columns:1fr; }
-    .welcome .ph, .dining .ph { min-height:320px; }
-    .suite-grid { grid-template-columns:1fr 1fr; }
-    .exp-grid { grid-template-columns:1fr 1fr; }
-    .gal-grid { grid-template-columns:repeat(2,1fr); }
-    .dining .order-first { order:-1; }
+  @media(max-width:980px){
+    .hero{ grid-template-columns:1fr; min-height:auto; padding-top:5rem; }
+    .stage{ height:56vh; order:-1; }
+    .welcome-grid,.dining-grid,.reserve-grid{ grid-template-columns:1fr; }
+    .suite-grid{ grid-template-columns:1fr 1fr; }
+    .exp-grid{ grid-template-columns:1fr 1fr; }
+    .gal-grid{ grid-template-columns:repeat(2,1fr); }
   }
-  @media (max-width: 560px) {
-    .suite-grid, .exp-grid { grid-template-columns:1fr; }
-    .two { grid-template-columns:1fr; }
-    .foot-grid { grid-template-columns:1fr; gap:1.8rem; }
-    .stats { gap:1.6rem; }
+  @media(max-width:560px){
+    .suite-grid,.exp-grid{ grid-template-columns:1fr; } .two{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .spin{ animation:none; transform:rotateY(-28deg); } html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; } .tilt{ transition:none; }
   }
 </style>
 </head>
 <body>
 
 <header class="nav">
-  <a class="brand" href="#top">
-    <span class="crest">R</span>
-    <span><b>Raja Kothi</b><small>Heritage Retreat</small></span>
-  </a>
+  <a class="brand" href="#top"><span class="crest">R</span><span><b>Raja Kothi</b><small>Heritage Retreat</small></span></a>
   <nav class="links">
-    <a href="#welcome">The Estate</a>
-    <a href="#suites">Suites</a>
-    <a href="#experiences">Experiences</a>
-    <a href="#dining">Dining</a>
-    <a href="#gallery">Gallery</a>
+    <a href="#welcome">The Estate</a><a href="#suites">Suites</a><a href="#experiences">Experiences</a>
+    <a href="#dining">Dining</a><a href="#gallery">Gallery</a>
   </nav>
-  <div style="display:flex; align-items:center; gap:.7rem;">
-    <button id="theme" aria-label="Toggle light and dark theme">☾</button>
+  <div class="nav-right">
+    <button id="theme" aria-label="Toggle theme">☾</button>
     <a href="#reserve" class="btn btn-solid">Reserve</a>
   </div>
 </header>
 
 <main id="top">
-
   <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-inner">
-      <span class="eyebrow">Est. Heritage · A Living Palace</span>
-      <h1>Where the <em>Raja</em> once<br/>kept his court.</h1>
-      <div class="rule" aria-hidden="true"><span></span></div>
-      <p class="lede">A restored royal kothi wrapped in sandstone courtyards, jali-latticed verandahs and quiet luxury — reserved now for a very few guests at a time.</p>
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"><span class="blob a"></span><span class="blob b"></span></div>
+    <div class="hero-copy">
+      <span class="eyebrow">A Living Palace · Heritage Retreat</span>
+      <h1>Stay where the <em>Raja</em> once lived.</h1>
+      <p>A restored royal kothi of sandstone courtyards and jasmine gardens — reimagined as a warm, quiet retreat for a very few guests.</p>
       <div class="hero-actions">
         <a href="#reserve" class="btn btn-solid">Reserve Your Stay</a>
-        <a href="#welcome" class="btn">Discover the Estate</a>
+        <a href="#welcome" class="btn">Explore the Estate</a>
       </div>
     </div>
-    <span class="scroll-cue" aria-hidden="true">Scroll to enter</span>
+    <div class="stage" id="stage" aria-hidden="true">
+      <div class="plinth-shadow"></div>
+      <div class="tilt" id="tilt"><div class="spin" id="spin"></div></div>
+      <span class="stage-cap">A 3D chhatri pavilion · move your cursor</span>
+    </div>
   </section>
 
   <!-- WELCOME -->
   <section class="welcome" id="welcome">
     <div class="welcome-grid">
-      <div class="welcome-copy">
+      <div class="welcome-copy reveal">
         <span class="eyebrow">The Estate</span>
-        <h2>A private mansion, reawakened for the modern traveller.</h2>
-        <p>Behind carved sandstone gates, Raja Kothi unfolds as it always has — cool colonnaded courtyards, frescoed halls and gardens scented with jasmine. Every corner has been restored by hand, so that heritage is something you live inside, not merely look at.</p>
-        <p>We keep the estate deliberately intimate. Fewer rooms, more attention. A butler who knows your name, a kitchen that cooks to your mood, and evenings that end under a sky full of stars.</p>
+        <h2>A private mansion, warmly reawakened.</h2>
+        <p>Behind carved sandstone gates, Raja Kothi unfolds in cool colonnaded courtyards and frescoed halls, restored by hand so heritage is something you live inside — not merely look at.</p>
+        <p>We keep it intimate. Fewer rooms, more attention: a butler who knows your name, a kitchen that cooks to your mood, and evenings under a sky full of stars.</p>
         <div class="stats">
           <div class="stat"><b>14</b><span>Private Suites</span></div>
           <div class="stat"><b>7</b><span>Acres of Gardens</span></div>
           <div class="stat"><b>1:3</b><span>Staff to Guest</span></div>
         </div>
       </div>
-      <div class="ph arch" data-label="Photo — Courtyard / Facade at golden hour"></div>
+      <div class="ph reveal" data-label="Photo — Courtyard / facade at golden hour"></div>
     </div>
   </section>
 
   <!-- SUITES -->
   <section class="suites" id="suites">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="eyebrow">Accommodation</span>
       <h2>Suites fit for royalty</h2>
-      <div class="rule" aria-hidden="true"><span></span></div>
-      <p>Three tiers of rooms, each named for the estate's own history — hand-block textiles, brass fittings, and windows that open to the gardens.</p>
+      <div class="divider" aria-hidden="true"><i></i></div>
+      <p>Three tiers, each named for the estate's history — hand-block textiles, brass fittings, garden light. Hover to tilt.</p>
     </div>
     <div class="suite-grid">
-      <article class="suite">
-        <div class="ph" data-label="Photo — Darbar Suite interior"></div>
-        <div class="suite-body">
-          <span class="tag">Signature</span>
-          <h3>The Darbar Suite</h3>
-          <p>The old audience chamber, now a soaring suite with a four-poster bed, private sit-out and a marble bath.</p>
-          <span class="price">from ₹24,000 / night</span>
-        </div>
-      </article>
-      <article class="suite">
-        <div class="ph" data-label="Photo — Rani Mahal room"></div>
-        <div class="suite-body">
-          <span class="tag">Premium</span>
-          <h3>Rani Mahal</h3>
+      <div class="card3d reveal"><div class="card-inner tiltcard"><span class="glare"></span>
+        <div class="ph" data-label="Photo — Darbar Suite"></div>
+        <div class="suite-body"><span class="tag">Signature</span><h3>The Darbar Suite</h3>
+          <p>The old audience chamber — soaring ceilings, four-poster bed, private sit-out and a marble bath.</p>
+          <span class="price">from ₹24,000 / night</span></div></div></div>
+      <div class="card3d reveal"><div class="card-inner tiltcard"><span class="glare"></span>
+        <div class="ph" data-label="Photo — Rani Mahal"></div>
+        <div class="suite-body"><span class="tag">Premium</span><h3>Rani Mahal</h3>
           <p>Soft light, jharokha windows and a courtyard view — the queen's quarters, reimagined for two.</p>
-          <span class="price">from ₹18,000 / night</span>
-        </div>
-      </article>
-      <article class="suite">
+          <span class="price">from ₹18,000 / night</span></div></div></div>
+      <div class="card3d reveal"><div class="card-inner tiltcard"><span class="glare"></span>
         <div class="ph" data-label="Photo — Haveli Room"></div>
-        <div class="suite-body">
-          <span class="tag">Classic</span>
-          <h3>Haveli Rooms</h3>
-          <p>Intimate heritage rooms opening onto the garden colonnade — the gentle way to begin your stay.</p>
-          <span class="price">from ₹12,000 / night</span>
-        </div>
-      </article>
+        <div class="suite-body"><span class="tag">Classic</span><h3>Haveli Rooms</h3>
+          <p>Intimate heritage rooms opening onto the garden colonnade — the gentle way to begin.</p>
+          <span class="price">from ₹12,000 / night</span></div></div></div>
     </div>
   </section>
 
   <!-- EXPERIENCES -->
   <section class="exp" id="experiences">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="eyebrow">Curated Experiences</span>
       <h2>Days shaped like a royal's</h2>
-      <p>Nothing on this estate is standard. Tell us your mood and we compose the day around it.</p>
+      <div class="divider" aria-hidden="true"><i></i></div>
+      <p>Tell us your mood and we compose the day around it.</p>
     </div>
     <div class="exp-grid">
-      <div class="exp-card">
-        <svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M24 6l4 8 9 1-6.5 6.3L32 30l-8-4.2L16 30l1.5-8.7L11 15l9-1z"/></svg>
-        <h3>Royal Dining</h3>
-        <p>Private thali feasts served in the courtyard by candle and lantern.</p>
-      </div>
-      <div class="exp-card">
-        <svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 34c6-4 10-4 16 0s10 4 16 0"/><path d="M8 26c6-4 10-4 16 0s10 4 16 0"/><circle cx="24" cy="14" r="5"/></svg>
-        <h3>Spa &amp; Hammam</h3>
-        <p>Ayurvedic rituals and heritage oils in the restored stone bath.</p>
-      </div>
-      <div class="exp-card">
-        <svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M24 40V16"/><path d="M24 16c0-5 4-9 10-9-1 6-4 9-10 9z"/><path d="M24 22c0-4-3-7-8-7 1 5 3 7 8 7z"/></svg>
-        <h3>Garden Walks</h3>
-        <p>Dawn strolls through seven acres of jasmine, neem and lily ponds.</p>
-      </div>
-      <div class="exp-card">
-        <svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="9" y="14" width="30" height="22" rx="2"/><path d="M9 20h30M17 14V9m14 5V9"/></svg>
-        <h3>Heritage Tours</h3>
-        <p>Guided evenings through the estate's frescoes, forts and folklore.</p>
-      </div>
+      <div class="exp-card reveal"><svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M24 6l4 8 9 1-6.5 6.3L32 30l-8-4.2L16 30l1.5-8.7L11 15l9-1z"/></svg><h3>Royal Dining</h3><p>Candlelit thali feasts in the courtyard.</p></div>
+      <div class="exp-card reveal"><svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 34c6-4 10-4 16 0s10 4 16 0"/><path d="M8 26c6-4 10-4 16 0s10 4 16 0"/><circle cx="24" cy="14" r="5"/></svg><h3>Spa &amp; Hammam</h3><p>Ayurvedic rituals in the stone bath.</p></div>
+      <div class="exp-card reveal"><svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M24 40V16"/><path d="M24 16c0-5 4-9 10-9-1 6-4 9-10 9z"/><path d="M24 22c0-4-3-7-8-7 1 5 3 7 8 7z"/></svg><h3>Garden Walks</h3><p>Dawn strolls through seven acres.</p></div>
+      <div class="exp-card reveal"><svg class="exp-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="9" y="14" width="30" height="22" rx="2"/><path d="M9 20h30M17 14V9m14 5V9"/></svg><h3>Heritage Tours</h3><p>Evenings of frescoes and folklore.</p></div>
     </div>
   </section>
 
   <!-- DINING -->
   <section class="dining" id="dining">
     <div class="dining-grid">
-      <div class="ph order-first" data-label="Photo — Courtyard dining / thali spread"></div>
-      <div class="dining-copy">
+      <div class="ph reveal" data-label="Photo — Courtyard dining / thali spread"></div>
+      <div class="dining-copy reveal">
         <span class="eyebrow">The Table</span>
         <h2>Recipes from the royal kitchen.</h2>
-        <p>Our khansama cooks the way the palace always ate — slow-simmered, spice-ground-that-morning, plated with ceremony. Dine where you please: the courtyard, the terrace, or beside the lily pond.</p>
+        <p>Our khansama cooks the way the palace always ate — slow-simmered, spice ground that morning, plated with ceremony. Dine in the courtyard, on the terrace, or beside the lily pond.</p>
         <ul>
           <li>Royal Rajasthani thali, served on brass</li>
           <li>Private chef's table for special evenings</li>
@@ -436,33 +357,33 @@
 
   <!-- GALLERY -->
   <section class="gallery" id="gallery">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="eyebrow">A First Glimpse</span>
       <h2>The estate in frames</h2>
-      <div class="rule" aria-hidden="true"><span></span></div>
-      <p>These panels are sized and ready — send your photographs and each one drops straight into place.</p>
+      <div class="divider" aria-hidden="true"><i></i></div>
+      <p>These panels are sized and ready — send your photographs and each drops into place.</p>
     </div>
     <div class="gal-grid">
-      <div class="ph" data-label="Feature photo — Palace facade"></div>
-      <div class="ph" data-label="Photo — Suite detail"></div>
-      <div class="ph" data-label="Photo — Courtyard"></div>
-      <div class="ph" data-label="Photo — Dining"></div>
-      <div class="ph" data-label="Photo — Pool / garden"></div>
-      <div class="ph" data-label="Wide photo — Evening lights"></div>
+      <div class="ph reveal" data-label="Feature — Palace facade"></div>
+      <div class="ph reveal" data-label="Suite detail"></div>
+      <div class="ph reveal" data-label="Courtyard"></div>
+      <div class="ph reveal" data-label="Dining"></div>
+      <div class="ph reveal" data-label="Pool / garden"></div>
+      <div class="ph reveal" data-label="Wide — Evening lights"></div>
     </div>
   </section>
 
   <!-- RESERVE -->
   <section class="reserve" id="reserve">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <span class="eyebrow">Your Stay Awaits</span>
       <h2>Reserve at Raja Kothi</h2>
-      <div class="rule" aria-hidden="true"><span></span></div>
+      <div class="divider" aria-hidden="true"><i></i></div>
     </div>
     <div class="reserve-grid">
-      <div>
-        <h3 style="font-size:1.5rem; margin-bottom:.6rem;">We answer every guest personally.</h3>
-        <p style="color:var(--ink-soft);">Share your dates and we'll craft a stay around them — transfers, dining, experiences and all. Expect a reply within a few hours.</p>
+      <div class="reveal">
+        <h3 style="font-size:1.5rem;margin-bottom:.5rem;">We answer every guest personally.</h3>
+        <p style="color:var(--muted);">Share your dates and we'll craft a stay around them — transfers, dining, experiences and all. Expect a reply within a few hours.</p>
         <div class="contact-list">
           <div><span class="k">Reservations</span><span class="v">+91 00000 00000</span></div>
           <div><span class="k">Email</span><span class="v">stay@rajakothi.com</span></div>
@@ -470,7 +391,7 @@
           <div><span class="k">Follow</span><span class="v">Instagram · Facebook</span></div>
         </div>
       </div>
-      <form class="book" onsubmit="event.preventDefault(); this.querySelector('.msg').hidden=false;">
+      <form class="book reveal" onsubmit="event.preventDefault(); this.querySelector('.msg').hidden=false;">
         <h3>Request a Reservation</h3>
         <div class="field"><label for="n">Full name</label><input id="n" type="text" placeholder="Your name" required /></div>
         <div class="two">
@@ -482,8 +403,8 @@
           <div class="field"><label for="s">Suite</label><select id="s"><option>The Darbar Suite</option><option>Rani Mahal</option><option>Haveli Rooms</option></select></div>
         </div>
         <div class="field"><label for="e">Email</label><input id="e" type="email" placeholder="you@email.com" required /></div>
-        <button type="submit" class="btn btn-solid">Send Reservation Request</button>
-        <p class="msg" hidden style="color:var(--emerald); font-size:.86rem; margin-top:.2rem;">Thank you — this is a demo form. Once hosted, we'll connect it to your inbox or booking engine.</p>
+        <button type="submit" class="btn btn-solid" style="padding:.9rem;">Send Reservation Request</button>
+        <p class="msg" hidden style="color:var(--coffee);font-size:.86rem;">Thank you — this is a demo form. Once hosted we'll connect it to your inbox or booking engine.</p>
       </form>
     </div>
   </section>
@@ -491,24 +412,10 @@
 
 <footer class="site">
   <div class="foot-grid">
-    <div class="foot-brand">
-      <b>Raja Kothi</b>
-      <p>A restored heritage palace where royal Rajput hospitality meets quiet, modern luxury — kept intimate for a fortunate few.</p>
-    </div>
-    <div class="foot-col">
-      <h4>Explore</h4>
-      <a href="#welcome">The Estate</a>
-      <a href="#suites">Suites</a>
-      <a href="#experiences">Experiences</a>
-      <a href="#dining">Dining</a>
-    </div>
-    <div class="foot-col">
-      <h4>Visit</h4>
-      <a href="#reserve">Reserve</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#reserve">Contact</a>
-      <a href="#reserve">Directions</a>
-    </div>
+    <div class="foot-brand"><b>Raja Kothi</b>
+      <p>A restored heritage palace where royal hospitality meets warm, modern calm — kept intimate for a fortunate few.</p></div>
+    <div class="foot-col"><h4>Explore</h4><a href="#welcome">The Estate</a><a href="#suites">Suites</a><a href="#experiences">Experiences</a><a href="#dining">Dining</a></div>
+    <div class="foot-col"><h4>Visit</h4><a href="#reserve">Reserve</a><a href="#gallery">Gallery</a><a href="#reserve">Contact</a><a href="#reserve">Directions</a></div>
   </div>
   <div class="foot-bottom">
     <span>© <span id="yr"></span> Raja Kothi Heritage Retreat. All rights reserved.</span>
@@ -517,15 +424,75 @@
 </footer>
 
 <script>
-  // theme toggle (persists within the session)
-  var root = document.documentElement, tbtn = document.getElementById('theme');
-  function apply(t){ root.setAttribute('data-theme', t); tbtn.textContent = t === 'dark' ? '☀' : '☾'; }
-  tbtn.addEventListener('click', function(){
-    var cur = root.getAttribute('data-theme');
-    if(!cur){ cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-    apply(cur === 'dark' ? 'light' : 'dark');
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Build the 3D chhatri pavilion ---- */
+  var spin = document.getElementById('spin');
+  function box(w,h,d, cls, x,y,z){
+    var b=document.createElement('div'); b.className='box';
+    b.style.transform='translate3d('+x+'px,'+y+'px,'+z+'px)';
+    var F=[['fx','translateZ('+(d/2)+'px)',w,h],['bx','rotateY(180deg) translateZ('+(d/2)+'px)',w,h],
+           ['rx','rotateY(90deg) translateZ('+(w/2)+'px)',d,h],['lx','rotateY(-90deg) translateZ('+(w/2)+'px)',d,h],
+           ['tx','rotateX(90deg) translateZ('+(h/2)+'px)',w,d],['dx','rotateX(-90deg) translateZ('+(h/2)+'px)',w,d]];
+    F.forEach(function(f){ var e=document.createElement('div'); e.className='face '+f[0]+' '+(cls||'');
+      e.style.width=f[2]+'px'; e.style.height=f[3]+'px'; e.style.marginLeft=(-f[2]/2)+'px'; e.style.marginTop=(-f[3]/2)+'px';
+      e.style.transform=f[1]; b.appendChild(e); });
+    spin.appendChild(b);
+  }
+  // platform, steps, pillars, entablature
+  box(300,26,300,'', 0,120,0);
+  box(250,20,250,'', 0,100,0);
+  var c=95; // pillar corner offset
+  [[-c,-c],[c,-c],[-c,c],[c,c]].forEach(function(p){ box(20,150,20,'', p[0],15,p[1]); });
+  box(250,22,250,'', 0,-62,0);      // entablature
+  // dome from stacked rings
+  var H=115, Rmax=120, N=20, baseY=-74;
+  for(var i=0;i<=N;i++){ var t=i/N, y=baseY - t*H, r=Rmax*Math.sqrt(1-t*t);
+    var ring=document.createElement('div'); ring.className='ring';
+    var dia=Math.max(2*r,6); ring.style.width=dia+'px'; ring.style.height=dia+'px';
+    ring.style.marginLeft=(-dia/2)+'px'; ring.style.marginTop=(-dia/2)+'px';
+    ring.style.transform='translate3d(0,'+y+'px,0) rotateX(90deg)';
+    spin.appendChild(ring);
+  }
+  box(16,40,16,'', 0,-200,0); // finial
+  box(30,10,30,'', 0,-178,0);
+
+  /* ---- cursor parallax ---- */
+  var root=document.documentElement;
+  if(!reduce){
+    window.addEventListener('pointermove', function(ev){
+      var x=(ev.clientX/window.innerWidth)*2-1, y=(ev.clientY/window.innerHeight)*2-1;
+      root.style.setProperty('--mx', x.toFixed(3)); root.style.setProperty('--my', y.toFixed(3));
+    }, {passive:true});
+  }
+
+  /* ---- tilt cards ---- */
+  document.querySelectorAll('.tiltcard').forEach(function(card){
+    var p=card.parentElement;
+    p.addEventListener('pointermove', function(ev){
+      if(reduce) return;
+      var r=card.getBoundingClientRect(), px=(ev.clientX-r.left)/r.width, py=(ev.clientY-r.top)/r.height;
+      card.style.transform='rotateY('+((px-.5)*14)+'deg) rotateX('+((.5-py)*14)+'deg) translateZ(6px)';
+      card.style.setProperty('--gx',(px*100)+'%'); card.style.setProperty('--gy',(py*100)+'%');
+    });
+    p.addEventListener('pointerleave', function(){ card.style.transform='rotateY(0) rotateX(0)'; });
   });
-  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---- scroll reveals ---- */
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.14});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* ---- theme toggle ---- */
+  var tbtn=document.getElementById('theme');
+  tbtn.addEventListener('click', function(){
+    var cur=root.getAttribute('data-theme');
+    if(!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light';
+    var next = cur==='dark'?'light':'dark'; root.setAttribute('data-theme',next);
+    tbtn.textContent = next==='dark'?'☀':'☾';
+  });
+  document.getElementById('yr').textContent=new Date().getFullYear();
+})();
 </script>
 </body>
 </html>
