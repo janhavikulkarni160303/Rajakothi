@@ -7,9 +7,9 @@
 <meta name="description" content="Raja Kothi — a heritage palace retreat. An immersive, warm, minimal experience in cream and coffee." />
 <style>
   /* ============================================================
-     RAJA KOTHI · 3D heritage retreat
+     RAJA KOTHI · warm heritage retreat
      Palette: warm white · cream · latte · mocha · coffee · espresso
-     Depth: CSS 3D pavilion, cursor parallax, tilt cards, scroll reveals
+     Motion: animated mandala emblem, drifting particles, scroll reveals
      Fonts (host swap): Fraunces (display) + Inter (body) once live.
      ============================================================ */
   :root {
@@ -79,7 +79,7 @@
   #theme{ width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:.95rem; }
   @media(max-width:880px){ nav.links{ display:none; } }
 
-  /* ---------- HERO with 3D pavilion ---------- */
+  /* ---------- HERO with mandala emblem ---------- */
   .hero{ position:relative; min-height:100vh; display:grid; grid-template-columns:1.05fr .95fr; align-items:center;
     gap:2rem; padding:6rem var(--pad) 3rem; overflow:hidden; }
   .hero-glow{ position:absolute; inset:0; z-index:0; pointer-events:none; }
@@ -96,29 +96,12 @@
   .hero-copy p{ color:var(--muted); max-width:28rem; }
   .hero-actions{ display:flex; gap:1rem; flex-wrap:wrap; margin-top:.4rem; }
 
-  /* 3D stage */
-  .stage{ position:relative; z-index:2; height:min(70vh,620px); perspective:1200px; perspective-origin:50% 45%; }
-  .tilt{ position:absolute; inset:0; transform-style:preserve-3d;
-    transform:rotateX(calc(var(--my)*10deg)) rotateY(calc(var(--mx)*-16deg)); transition:transform .15s ease-out; }
-  .spin{ position:absolute; left:50%; top:52%; width:0; height:0; transform-style:preserve-3d;
-    animation:spin 34s linear infinite; }
-  @keyframes spin{ from{ transform:rotateY(0); } to{ transform:rotateY(360deg); } }
-
-  .box{ position:absolute; left:50%; top:50%; width:0; height:0; transform-style:preserve-3d; }
-  .face{ position:absolute; left:50%; top:50%; background:var(--coffee); border:1px solid rgba(47,35,27,.15);
-    background-image:linear-gradient(160deg, rgba(255,255,255,.14), rgba(0,0,0,.10)); }
-  .face.tx{ background:linear-gradient(160deg,var(--mocha),var(--coffee)); }
-  .face.dx{ background:var(--espresso); }
-  .face.rx,.face.lx{ filter:brightness(.86); }
-  .face.bx{ filter:brightness(.8); }
-  .ring{ position:absolute; left:50%; top:50%; border-radius:50%;
-    background:radial-gradient(circle at 40% 35%, var(--mocha), var(--coffee) 70%, var(--espresso));
-    box-shadow:0 1px 0 rgba(0,0,0,.12); }
-  .plinth-shadow{ position:absolute; left:50%; top:calc(52% + 130px); width:360px; height:120px; margin-left:-180px;
-    background:radial-gradient(ellipse, rgba(60,40,26,.35), transparent 70%); filter:blur(8px);
-    transform:translateZ(0); z-index:1; }
-  .stage-cap{ position:absolute; bottom:.2rem; left:0; right:0; text-align:center; font-size:.64rem;
-    letter-spacing:.28em; text-transform:uppercase; color:var(--muted); z-index:4; }
+  /* motion-graphics emblem stage */
+  .stage{ position:relative; z-index:2; height:min(70vh,620px); }
+  #mandala{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .emblem{ position:absolute; inset:0; display:grid; place-content:center; justify-items:center; text-align:center; z-index:2; pointer-events:none; }
+  .emblem span{ font-family:var(--font-display); font-size:clamp(3rem,7vw,5rem); color:var(--coffee); line-height:1; }
+  .emblem small{ text-transform:uppercase; letter-spacing:.42em; font-size:.6rem; color:var(--muted); margin-top:.9rem; }
 
   /* ---------- reveal ---------- */
   .reveal{ opacity:0; transform:translateY(38px) rotateX(8deg); transform-origin:top; transition:opacity .8s, transform .8s; }
@@ -155,14 +138,14 @@
   /* SUITES — tilt cards */
   .suites{ background:linear-gradient(180deg,var(--warm-white),var(--cream)); }
   .suite-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.8rem; max-width:80rem; margin:0 auto; }
-  .card3d{ perspective:900px; }
   .card-inner{ background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden;
-    transform-style:preserve-3d; transition:transform .12s ease-out, box-shadow .3s; box-shadow:var(--shadow); position:relative; }
+    transition:transform .3s ease, box-shadow .3s; box-shadow:var(--shadow); position:relative; }
+  .card3d:hover .card-inner{ transform:translateY(-8px); box-shadow:0 26px 50px -26px rgba(72,49,32,.5); }
   .card-inner .glare{ position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s; z-index:3;
-    background:radial-gradient(circle at var(--gx,50%) var(--gy,0%), rgba(255,255,255,.5), transparent 45%); }
-  .card3d:hover .glare{ opacity:.7; }
-  .card-inner .ph{ border-radius:0; box-shadow:none; min-height:250px; transform:translateZ(30px); }
-  .suite-body{ padding:1.7rem 1.6rem 2rem; display:grid; gap:.6rem; transform:translateZ(45px); }
+    background:radial-gradient(circle at var(--gx,50%) var(--gy,0%), rgba(255,255,255,.45), transparent 45%); }
+  .card3d:hover .glare{ opacity:.6; }
+  .card-inner .ph{ border-radius:0; box-shadow:none; min-height:250px; }
+  .suite-body{ padding:1.7rem 1.6rem 2rem; display:grid; gap:.6rem; }
   .suite-body .tag{ font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--mocha); }
   .suite-body h3{ font-size:1.55rem; }
   .suite-body p{ color:var(--muted); font-size:.92rem; }
@@ -236,8 +219,8 @@
     .foot-grid{ grid-template-columns:1fr; }
   }
   @media (prefers-reduced-motion: reduce){
-    .spin{ animation:none; transform:rotateY(-28deg); } html{ scroll-behavior:auto; }
-    .reveal{ opacity:1; transform:none; } .tilt{ transition:none; }
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; }
   }
 </style>
 </head>
@@ -268,10 +251,9 @@
         <a href="#welcome" class="btn">Explore the Estate</a>
       </div>
     </div>
-    <div class="stage" id="stage" aria-hidden="true">
-      <div class="plinth-shadow"></div>
-      <div class="tilt" id="tilt"><div class="spin" id="spin"></div></div>
-      <span class="stage-cap">Move your cursor · the palace turns for you</span>
+    <div class="stage" id="stage">
+      <canvas id="mandala" aria-hidden="true"></canvas>
+      <div class="emblem"><span>R</span><small>Raja Kothi</small></div>
     </div>
   </section>
 
@@ -426,40 +408,74 @@
 <script>
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---- Build the 3D chhatri pavilion ---- */
-  var spin = document.getElementById('spin');
-  function box(w,h,d, cls, x,y,z){
-    var b=document.createElement('div'); b.className='box';
-    b.style.transform='translate3d('+x+'px,'+y+'px,'+z+'px)';
-    var F=[['fx','translateZ('+(d/2)+'px)',w,h],['bx','rotateY(180deg) translateZ('+(d/2)+'px)',w,h],
-           ['rx','rotateY(90deg) translateZ('+(w/2)+'px)',d,h],['lx','rotateY(-90deg) translateZ('+(w/2)+'px)',d,h],
-           ['tx','rotateX(90deg) translateZ('+(h/2)+'px)',w,d],['dx','rotateX(-90deg) translateZ('+(h/2)+'px)',w,d]];
-    F.forEach(function(f){ var e=document.createElement('div'); e.className='face '+f[0]+' '+(cls||'');
-      e.style.width=f[2]+'px'; e.style.height=f[3]+'px'; e.style.marginLeft=(-f[2]/2)+'px'; e.style.marginTop=(-f[3]/2)+'px';
-      e.style.transform=f[1]; b.appendChild(e); });
-    spin.appendChild(b);
-  }
-  // platform, steps, pillars, entablature
-  box(300,26,300,'', 0,120,0);
-  box(250,20,250,'', 0,100,0);
-  var c=95; // pillar corner offset
-  [[-c,-c],[c,-c],[-c,c],[c,c]].forEach(function(p){ box(20,150,20,'', p[0],15,p[1]); });
-  box(250,22,250,'', 0,-62,0);      // entablature
-  // dome from stacked rings
-  var H=115, Rmax=120, N=20, baseY=-74;
-  for(var i=0;i<=N;i++){ var t=i/N, y=baseY - t*H, r=Rmax*Math.sqrt(1-t*t);
-    var ring=document.createElement('div'); ring.className='ring';
-    var dia=Math.max(2*r,6); ring.style.width=dia+'px'; ring.style.height=dia+'px';
-    ring.style.marginLeft=(-dia/2)+'px'; ring.style.marginTop=(-dia/2)+'px';
-    ring.style.transform='translate3d(0,'+y+'px,0) rotateX(90deg)';
-    spin.appendChild(ring);
-  }
-  box(16,40,16,'', 0,-200,0); // finial
-  box(30,10,30,'', 0,-178,0);
-
-  /* ---- cursor parallax ---- */
   var root=document.documentElement;
+
+  /* ---- Motion-graphics mandala emblem (canvas) ---- */
+  var canvas=document.getElementById('mandala');
+  if(canvas){
+    var ctx=canvas.getContext('2d'), W=0,H=0,DPR=1, particles=[];
+    function palette(){
+      var cs=getComputedStyle(root);
+      return { gold:(cs.getPropertyValue('--mocha').trim()||'#A97E56'),
+               caramel:(cs.getPropertyValue('--caramel').trim()||'#B98A5E') };
+    }
+    function newP(spread){
+      return { x:Math.random()*W, y:spread?Math.random()*H:H+8,
+               r:0.6+Math.random()*2.1, sp:0.12+Math.random()*0.45,
+               ph:Math.random()*Math.PI*2, a:0.12+Math.random()*0.35 };
+    }
+    function resize(){
+      DPR=Math.min(window.devicePixelRatio||1,2);
+      var b=canvas.getBoundingClientRect(); W=b.width; H=b.height;
+      canvas.width=W*DPR; canvas.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+      var n=Math.round(Math.min(44,(W*H)/12000)); particles=[];
+      for(var i=0;i<n;i++) particles.push(newP(true));
+    }
+    function petals(rot, rad, n, len, alpha){
+      ctx.save(); ctx.rotate(rot); ctx.globalAlpha=alpha; ctx.lineWidth=1;
+      for(var i=0;i<n;i++){ var a=i/n*Math.PI*2, x=Math.cos(a)*rad, y=Math.sin(a)*rad;
+        ctx.save(); ctx.translate(x,y); ctx.rotate(a);
+        ctx.beginPath(); ctx.moveTo(0,0);
+        ctx.quadraticCurveTo(len*0.55,-len*0.55, len,0);
+        ctx.quadraticCurveTo(len*0.55, len*0.55, 0,0);
+        ctx.stroke(); ctx.restore();
+      }
+      ctx.restore();
+    }
+    function dots(rot, rad, n, size){
+      ctx.save(); ctx.rotate(rot);
+      for(var i=0;i<n;i++){ var a=i/n*Math.PI*2;
+        ctx.beginPath(); ctx.arc(Math.cos(a)*rad,Math.sin(a)*rad,size,0,Math.PI*2); ctx.fill(); }
+      ctx.restore();
+    }
+    function mandala(t, c){
+      var base=Math.min(W,H)*0.42, R=base*(1+Math.sin(t*0.0006)*0.02);
+      ctx.save(); ctx.translate(W/2,H/2);
+      ctx.strokeStyle=c.gold; ctx.fillStyle=c.caramel;
+      ctx.globalAlpha=0.45; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.stroke();
+      ctx.beginPath(); ctx.arc(0,0,R*0.93,0,Math.PI*2); ctx.stroke();
+      ctx.globalAlpha=0.5; dots(t*0.00004, R*0.85, 48, 1.3);
+      ctx.strokeStyle=c.gold;    petals(t*0.00006,  R*0.70, 24, R*0.11, 0.5);
+      ctx.strokeStyle=c.caramel; petals(-t*0.00009, R*0.48, 16, R*0.10, 0.55);
+      ctx.restore();
+    }
+    var raf;
+    function frame(t){
+      ctx.clearRect(0,0,W,H); var c=palette();
+      ctx.fillStyle=c.caramel;
+      for(var i=0;i<particles.length;i++){ var p=particles[i];
+        if(!reduce){ p.y-=p.sp; p.ph+=0.01; p.x+=Math.sin(p.ph)*0.3; if(p.y<-10) particles[i]=newP(false); }
+        ctx.globalAlpha=p.a; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+      }
+      ctx.globalAlpha=1; mandala(t,c);
+      if(!reduce) raf=requestAnimationFrame(frame);
+    }
+    resize(); window.addEventListener('resize', resize);
+    if(reduce) frame(0); else raf=requestAnimationFrame(frame);
+  }
+
+  /* ---- subtle background parallax ---- */
   if(!reduce){
     window.addEventListener('pointermove', function(ev){
       var x=(ev.clientX/window.innerWidth)*2-1, y=(ev.clientY/window.innerHeight)*2-1;
@@ -467,16 +483,13 @@
     }, {passive:true});
   }
 
-  /* ---- tilt cards ---- */
+  /* ---- soft light-sheen follows the cursor on cards (flat) ---- */
   document.querySelectorAll('.tiltcard').forEach(function(card){
-    var p=card.parentElement;
-    p.addEventListener('pointermove', function(ev){
-      if(reduce) return;
-      var r=card.getBoundingClientRect(), px=(ev.clientX-r.left)/r.width, py=(ev.clientY-r.top)/r.height;
-      card.style.transform='rotateY('+((px-.5)*14)+'deg) rotateX('+((.5-py)*14)+'deg) translateZ(6px)';
-      card.style.setProperty('--gx',(px*100)+'%'); card.style.setProperty('--gy',(py*100)+'%');
+    card.parentElement.addEventListener('pointermove', function(ev){
+      var r=card.getBoundingClientRect();
+      card.style.setProperty('--gx', ((ev.clientX-r.left)/r.width*100)+'%');
+      card.style.setProperty('--gy', ((ev.clientY-r.top)/r.height*100)+'%');
     });
-    p.addEventListener('pointerleave', function(){ card.style.transform='rotateY(0) rotateX(0)'; });
   });
 
   /* ---- scroll reveals ---- */
