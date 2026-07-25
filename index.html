@@ -135,6 +135,9 @@
   .ph::before{ content:attr(data-label); font-size:.66rem; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);
     text-align:center; padding:1rem; background:color-mix(in srgb,var(--warm-white) 70%,transparent); border-radius:8px; }
   .welcome .ph{ min-height:440px; }
+  .ph img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1; }
+  .ph.filled::before{ display:none; }
+  .ph.soon::before{ content:"More photos coming soon"; }
 
   /* SUITES — tilt cards */
   .suites{ background:linear-gradient(180deg,var(--warm-white),var(--cream)); }
@@ -176,6 +179,17 @@
   .dining-copy li{ display:flex; gap:.7rem; color:var(--muted); font-size:.95rem; }
   .dining-copy li::before{ content:"◆"; color:var(--mocha); font-size:.7rem; margin-top:.35rem; }
 
+  /* EVENTS */
+  .events{ background:linear-gradient(180deg,var(--warm-white),var(--cream)); }
+  .events-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,4.5rem); align-items:center; max-width:76rem; margin:0 auto; }
+  .events .ph{ min-height:440px; }
+  .events-copy{ display:grid; gap:1.2rem; }
+  .events-copy h3{ font-size:clamp(1.6rem,3.4vw,2.3rem); }
+  .events-copy p{ color:var(--muted); }
+  .events-copy ul{ list-style:none; padding:0; margin:.3rem 0 0; display:grid; gap:.7rem; }
+  .events-copy li{ display:flex; gap:.7rem; color:var(--muted); font-size:.95rem; }
+  .events-copy li::before{ content:"◆"; color:var(--mocha); font-size:.7rem; margin-top:.35rem; }
+
   /* GALLERY */
   .gallery{ background:linear-gradient(180deg,var(--cream),var(--warm-white)); }
   .gal-grid{ display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:180px; gap:1rem; max-width:82rem; margin:0 auto; }
@@ -210,7 +224,7 @@
   @media(max-width:980px){
     .hero{ grid-template-columns:1fr; min-height:auto; padding-top:5rem; }
     .stage{ height:56vh; order:-1; }
-    .welcome-grid,.dining-grid,.reserve-grid{ grid-template-columns:1fr; }
+    .welcome-grid,.dining-grid,.events-grid,.reserve-grid{ grid-template-columns:1fr; }
     .suite-grid{ grid-template-columns:1fr 1fr; }
     .exp-grid{ grid-template-columns:1fr 1fr; }
     .gal-grid{ grid-template-columns:repeat(2,1fr); }
@@ -230,8 +244,8 @@
 <header class="nav">
   <a class="brand" href="#top"><span class="crest">R</span><span><b>Raja Kothi</b><small>Heritage Retreat</small></span></a>
   <nav class="links">
-    <a href="#welcome">The Estate</a><a href="#suites">Suites</a><a href="#experiences">Experiences</a>
-    <a href="#dining">Dining</a><a href="#gallery">Gallery</a>
+    <a href="#welcome">The Estate</a><a href="#suites">Suites</a><a href="#dining">Dining</a>
+    <a href="#events">Events</a><a href="#experiences">Experiences</a><a href="#gallery">Gallery</a>
   </nav>
   <div class="nav-right">
     <button id="theme" aria-label="Toggle theme">☾</button>
@@ -272,7 +286,7 @@
           <div class="stat"><b>1:3</b><span>Staff to Guest</span></div>
         </div>
       </div>
-      <div class="ph reveal" data-label="Photo — Courtyard / facade at golden hour"></div>
+      <div class="ph filled reveal"><img src="images/estate.jpg" alt="Raja Kothi — exterior and garden pathway" loading="lazy" /></div>
     </div>
   </section>
 
@@ -322,7 +336,7 @@
   <!-- DINING -->
   <section class="dining" id="dining">
     <div class="dining-grid">
-      <div class="ph reveal" data-label="Photo — Courtyard dining / thali spread"></div>
+      <div class="ph filled reveal"><img src="images/dining.jpg" alt="Raja Kothi dining hall" loading="lazy" /></div>
       <div class="dining-copy reveal">
         <span class="eyebrow">The Table</span>
         <h2>Recipes from the royal kitchen.</h2>
@@ -338,6 +352,31 @@
     </div>
   </section>
 
+  <!-- EVENTS -->
+  <section class="events" id="events">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Celebrations &amp; Gatherings</span>
+      <h2>Halls for weddings, conferences &amp; events</h2>
+      <div class="divider" aria-hidden="true"><i></i></div>
+      <p>From intimate family functions to full-day conferences — our banquet pavilion hosts it all, with catering from the royal kitchen.</p>
+    </div>
+    <div class="events-grid">
+      <div class="ph filled reveal"><img src="images/hall.jpg" alt="Banquet and conference hall at Raja Kothi" loading="lazy" /></div>
+      <div class="events-copy reveal">
+        <span class="eyebrow">The Banquet Pavilion</span>
+        <h3>A hall that turns occasions into memories.</h3>
+        <p>Our spacious pavilion seats large gatherings under a handsome timber roof, opening to the gardens for tea and photographs between sessions.</p>
+        <ul>
+          <li>Weddings, receptions &amp; sangeet evenings</li>
+          <li>Corporate conferences &amp; off-sites</li>
+          <li>Birthdays, anniversaries &amp; family functions</li>
+          <li>In-house catering, décor &amp; stay packages</li>
+        </ul>
+        <div><a href="#reserve" class="btn">Enquire for Events</a></div>
+      </div>
+    </div>
+  </section>
+
   <!-- GALLERY -->
   <section class="gallery" id="gallery">
     <div class="sec-head reveal">
@@ -347,12 +386,12 @@
       <p>These panels are sized and ready — send your photographs and each drops into place.</p>
     </div>
     <div class="gal-grid">
-      <div class="ph reveal" data-label="Feature — Palace facade"></div>
-      <div class="ph reveal" data-label="Suite detail"></div>
-      <div class="ph reveal" data-label="Courtyard"></div>
-      <div class="ph reveal" data-label="Dining"></div>
-      <div class="ph reveal" data-label="Pool / garden"></div>
-      <div class="ph reveal" data-label="Wide — Evening lights"></div>
+      <div class="ph filled reveal"><img src="images/estate.jpg" alt="Raja Kothi exterior" loading="lazy" /></div>
+      <div class="ph filled reveal"><img src="images/dining.jpg" alt="Dining hall" loading="lazy" /></div>
+      <div class="ph filled reveal"><img src="images/hall2.jpg" alt="Banquet hall interior" loading="lazy" /></div>
+      <div class="ph soon reveal"></div>
+      <div class="ph soon reveal"></div>
+      <div class="ph filled reveal"><img src="images/hall.jpg" alt="Banquet hall, wide view" loading="lazy" /></div>
     </div>
   </section>
 
@@ -397,7 +436,7 @@
   <div class="foot-grid">
     <div class="foot-brand"><b>Raja Kothi</b>
       <p>A restored heritage palace where royal hospitality meets warm, modern calm — kept intimate for a fortunate few.</p></div>
-    <div class="foot-col"><h4>Explore</h4><a href="#welcome">The Estate</a><a href="#suites">Suites</a><a href="#experiences">Experiences</a><a href="#dining">Dining</a></div>
+    <div class="foot-col"><h4>Explore</h4><a href="#welcome">The Estate</a><a href="#suites">Suites</a><a href="#dining">Dining</a><a href="#events">Events</a></div>
     <div class="foot-col"><h4>Visit</h4><a href="#reserve">Reserve</a><a href="#gallery">Gallery</a><a href="#reserve">Contact</a><a href="#reserve">Directions</a></div>
   </div>
   <div class="foot-bottom">
